@@ -1,0 +1,12 @@
+-- Count of different tags given per artist. Top10
+
+CREATE EXTERNAL TABLE artists (id STRING, name STRING, url STRING, pictureURL STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/sourcefiles/last.fm/artists.dat' OVERWRITE INTO table artists;
+
+CREATE EXTERNAL TABLE user_taggedartists (userID STRING, artistID STRING, tagID STRING, day STRING, month STRING, year STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/sourcefiles/last.fm/user_taggedartists.dat' OVERWRITE INTO table user_taggedartists;
+
+
+select a.name, b.tags from artists a join (select artistID, count(tagID) as tags from user_taggedartists group by artistID) b on a.id = b.artistID order by b.tags desc limit 10;

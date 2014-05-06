@@ -1,0 +1,20 @@
+1) Most listened to artist - top 10 
+-------------> top10artists.pig
+
+2) Most used tagValue, given by users to artists by percentage. Top 10 tagValues.
+-------------> top10tags.pig
+
+3) Average number of artists listened by users. Means how many different artists do users listen to on an average.
+-------------> avgartists.pi
+
+4) Which artist has the largest spread. ie, listened by the most number of people. List top 10.
+-------------> top10widelylistened_hive
+
+5) Count of total tags given per artist. Top10.
+-------------> top10maxtags_hive
+
+6) User with most total listens and the artist that user has listened to maximum. List Top10 based on most total listens.
+-------------> top10listeningusers_hive 
+
+
+NOTE: Check the source_files_structure.txt for the details on the data and the file structure.

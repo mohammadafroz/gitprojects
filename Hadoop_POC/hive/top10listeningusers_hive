@@ -1,0 +1,16 @@
+-- User with most total listens and the artist that user has listened to maximum. List Top10 based on most total listens
+
+
+CREATE EXTERNAL TABLE user_artist_listen (userID STRING, artistID STRING, weight INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+CREATE EXTERNAL TABLE artists (id STRING, name STRING, url STRING, pictureURL STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/sourcefiles/last.fm/user_artists.dat' OVERWRITE INTO table user_artist_listen;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/sourcefiles/last.fm/artists.dat' OVERWRITE INTO table artists;
+
+
+select a.userID, sum(weight) as tot_listens,max(weight) as max_listen, b.name as max_listen_artist from user_artist_listen a join artists b on a.artistID = b.id  group by a.userID,b.name order by tot_listens desc limit 10;
+
+
+

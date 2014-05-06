@@ -1,0 +1,12 @@
+-- which artist has the largest spread. ie, listened by the most number of people - Fetch top 10. 
+
+
+CREATE EXTERNAL TABLE user_artist_listen (userID STRING, artistID STRING, weight INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+CREATE EXTERNAL TABLE artists (id STRING, name STRING, url STRING, pictureURL STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/sourcefiles/last.fm/user_artists.dat' OVERWRITE INTO table user_artist_listen;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/Desktop/sourcefiles/last.fm/artists.dat' OVERWRITE INTO table artists;
+
+select a.name, b.spread from artists a join (select artistID, count(userID) as spread from user_artist_listen group by artistID) b on a.id = b.artistID order by b.spread desc limit 10;
